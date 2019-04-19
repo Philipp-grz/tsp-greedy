@@ -3,7 +3,7 @@
 
 class Node {														// Dies ist meine Knoten-Klasse. Jeder Knoten erhält als
 	public: 														// Konstruktor-Elemente einen Index (1:1 aus der Datei),
-		Node (int index, double coord1, double coord2, Node* parent, int rank, int grad);
+		Node (const int index, const double coord1, const double coord2, Node* parent, int rank, int grad);
 		~Node();
 		int _index;
 		double _coord1;

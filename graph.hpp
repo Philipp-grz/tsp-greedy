@@ -4,7 +4,7 @@
 class Graph{
 	public:
 		Graph();
-		Graph(std::vector<Node> nodes, std::vector<Edge> edges, std::string name, std::string comment, int dim, std::string type);
+		Graph(std::vector<Node> nodes, std::vector<Edge> edges, const std::string name, const std::string comment, const int dim, const std::string type);
 		~Graph();
 		
 		std::vector<Edge> _e;
