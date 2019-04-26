@@ -27,7 +27,7 @@ std::unique_ptr<Graph> datei_einlesen (std::ifstream& datei)
 {																	// Als Parameter erhält die Funktion Pointer auf alle Objekte, in die sie schreiben soll.
 	std::string zeile;												// In diesem Hilfsstring speichern wir jeweils die aktuelle Zeile.
 	std::unique_ptr<Graph> graph(new Graph);
-	
+
 	while (std::getline(datei, zeile))								// Wir gehen die Datei durch, bis wir ans Ende kommen.
 	{
 		if (zeile != "EOF") 										// Sollte in der aktuellen Zeile "EOF" stehen, hören wir auch auf.
@@ -45,9 +45,9 @@ std::unique_ptr<Graph> datei_einlesen (std::ifstream& datei)
 				{
 					std::string temp;
 					ss >> temp;
-					graph->_comment = graph->_comment +" "+ temp;  
+					graph->_comment = graph->_comment +" "+ temp;
 				}
-			}	
+			}
 			if (word == "TYPE"){									// Sollte nach "TYPE" etwas anderes als "TSP" kommen, weisen wir die Eingabe zurück,
 				ss >> word;											// da wir nur das TSP betrachtet haben.
 				if (word != "TSP"){
@@ -74,7 +74,7 @@ std::unique_ptr<Graph> datei_einlesen (std::ifstream& datei)
 				{
 					std::stringstream sst(zeile);					// und speichern die aktuelle Zeile als stringstream.
 					sst>>word;										// Falls EOF erreicht wird, hören wir auf.
-					if (word != "EOF") 								
+					if (word != "EOF")
 					{												// Ansonsten lesen wir den stringstream in die folgenden Variablen aus:
 						int index_temp;								// für den Index des Knotens
 						double coord1_temp;							// die Koordinaten des Knotens
@@ -82,15 +82,16 @@ std::unique_ptr<Graph> datei_einlesen (std::ifstream& datei)
 						std::stringstream ss(zeile);				// Wir erzeugen den stringstream nochmals neu, da wir eben bereits das erste Wort entfernt hatten.
 						ss >> index_temp >> coord1_temp >> coord2_temp;	// Nun speichern wir die Werte analog zur Dokumentation in den Variablen.
 						//std::unique_ptr<Node> node_temp(new Node(index_temp, coord1_temp, coord2_temp,NULL ,0, 0));	// Hier erstellen wir einen temporären Knoten mit den aktuellen Werten,
-						Node* node_temp = new Node(index_temp, coord1_temp, coord2_temp,NULL ,0, 0);
-						node_temp->_parent=node_temp;				// und setzen den parent-Pointer zunächst auf sich selbst (vgl. Union-Find)
+						// Node* node_temp = new Node(index_temp, coord1_temp, coord2_temp,NULL ,0, 0);
+                  Node node_temp(index_temp, coord1_temp, coord2_temp,NULL ,0, 0);
+						node_temp._parent=&node_temp;				// und setzen den parent-Pointer zunächst auf sich selbst (vgl. Union-Find)
 						//std::cout<<node_temp.get()->_parent<<std::endl;
-						graph->_v.push_back(*(node_temp));			// Anschließend hängen wir den Knoten an den Vector dran.
+						graph->_v.push_back(node_temp);			// Anschließend hängen wir den Knoten an den Vector dran.
 					}
-			
+
 				}
 			}
-		}	
+		}
 	}
 	return graph;														// Falls keine Dateizurückweisung stattfand, geben wir die 1 zurück.
 }
@@ -99,7 +100,7 @@ std::string lineprepare (std::string line)
 {							// In dieser Funktion wird jeweils eine Zeile aus der Eingabe vorbereitet,
 																	// indem zunächst alle Doppelpunkte gelöscht werden.
 	line.erase(std::remove(line.begin(), line.end(), ':'), line.end());
-	
+
 	for ( unsigned int a = 0; a < line.size(); a++ )				// Anschließend werden mehrfache Leerzeichen gelöscht,
 	{																// um das Auslesen der Daten zu vereinfachen
         if ( line.at(a) == ' ' )
